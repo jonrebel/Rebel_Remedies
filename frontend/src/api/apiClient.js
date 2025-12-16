@@ -1,6 +1,13 @@
 import { getAccessToken, logout } from "../auth/auth";
 
-export async function apiFetch(url, options = {}) {
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+
+function buildUrl(path) {
+    if (path.startsWith("http")) return path;
+    return `${API_BASE}${path}`;
+}
+
+export async function apiFetch(path, options = {}) {
     const token = getAccessToken();
 
     const headers = {
@@ -8,11 +15,9 @@ export async function apiFetch(url, options = {}) {
         "Content-Type": "application/json",
     };
 
-    if (token) {
-        headers.Authorization = `Bearer ${token}`;
-    }
+    if (token) headers.Authorization = `Bearer ${token}`;
 
-    const response = await fetch(url, { ...options, headers });
+    const response = await fetch(buildUrl(path), { ...options, headers });
 
     if (response.status === 401) {
         logout();
@@ -20,3 +25,5 @@ export async function apiFetch(url, options = {}) {
 
     return response;
 }
+
+export { buildUrl };

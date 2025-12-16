@@ -1,3 +1,4 @@
+import { buildUrl } from "../api/apiClient";
 const ACCESS_KEY = "access_token";
 const REFRESH_KEY = "refresh_token";
 
@@ -16,7 +17,7 @@ export function logout() {
 }
 
 export async function login(username, password) {
-    const response = await fetch("/api/token/", {
+    const response = await fetch(buildUrl("/api/token/"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),

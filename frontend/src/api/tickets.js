@@ -1,4 +1,4 @@
-import { apiFetch } from "./apiclient";
+import { apiFetch } from "./apiClient.js";
 
 export async function getTickets(params = {}) {
     const qs = new URLSearchParams(params);

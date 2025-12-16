@@ -122,6 +122,11 @@ REST_FRAMEWORK = {
     ],
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "https://your-site.netlify.app",
+]
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
