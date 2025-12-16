@@ -24,6 +24,9 @@ SECRET_KEY = 'django-insecure-p%akpx-rt12mz3e@&&br8l*^ysg4fygjmj+-vdgqhh+7p^ztng
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+import os
+DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
 ALLOWED_HOSTS = []
 
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'config.urls'
