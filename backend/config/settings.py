@@ -123,7 +123,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://your-site.netlify.app",
+    "https://rebelremedies.netlify.app",
 ]
 
 
