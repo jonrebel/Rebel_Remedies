@@ -7,7 +7,7 @@ import random
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         User = get_user_model()
-        PASSWORD = "DemoPass123!"
+        PASSWORD = "Helpdesk1"
         if not User.objects.filter(username="admin").exists():
             admin = User.objects.create_superuser(
                 username="admin",
@@ -40,15 +40,18 @@ class Command(BaseCommand):
 
         tickets = []
         for i in range(15):
+            creator = user if i < 10 else tech
+
             tickets.append(
-                Ticket.objects.create(
-                    title=f"[DEMO] Issue #{i+1}",
-                    description="Demo ticket for interview.",
-                    status=random.choice(statuses),
-                    priority=random.choice(priorities),
-                    created_by=user,
-                )
-            )
+            Ticket.objects.create(
+                title=f"[DEMO] Issue #{i+1}",
+                description="Demo ticket for interview.",
+                status=random.choice(statuses),
+                priority=random.choice(priorities),
+                created_by=creator,
+        )
+    )
+
 
         for ticket in random.sample(tickets, 5):
             TicketComment.objects.create(ticket=ticket, comment="User reported issue.")
