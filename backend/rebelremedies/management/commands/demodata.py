@@ -8,25 +8,32 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         User = get_user_model()
         PASSWORD = "DemoPass123!"
+        if not User.objects.filter(username="admin").exists():
+            admin = User.objects.create_superuser(
+                username="admin",
+                email="admin@demo.com",
+                password=PASSWORD,
+            )
+            
+        if not User.objects.filter(username="tech").exists():
+            tech = User.objects.create_user(
+                username="tech",
+                email="tech@demo.com",
+                password=PASSWORD,
+                is_staff=True,
+            )
 
-        admin = User.objects.create_superuser(
-            username="admin",
-            email="admin@demo.com",
-            password=PASSWORD,
-        )
+        if not User.objects.filter(username="user").exists():
+            user = User.objects.create_user(
+                username="user",
+                email="user@demo.com",
+                password=PASSWORD,
+            )
+        else:
+            user = User.objects.get(username="user")
 
-        tech = User.objects.create_user(
-            username="tech",
-            email="tech@demo.com",
-            password=PASSWORD,
-            is_staff=True,
-        )
-
-        user = User.objects.create_user(
-            username="user",
-            email="user@demo.com",
-            password=PASSWORD,
-        )
+        if Ticket.objects.filter(title__startswith="[DEMO]").exists():
+            return
 
         statuses = list(Ticket.Status.values)
         priorities = list(Ticket.Priority.values)

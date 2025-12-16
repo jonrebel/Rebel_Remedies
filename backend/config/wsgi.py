@@ -15,8 +15,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 application = get_wsgi_application()
 
-if os.getenv("CREATE_ADMIN") == "true":
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser("admin", "admin@demo.com", "Helpdesk1")
+if os.getenv("RUN_SEED") == "true":
+    try:
+        from django.core.management import call_command
+        call_command("demodata")
+    except Exception as e:
+        print("Seed demo failed:", e)
